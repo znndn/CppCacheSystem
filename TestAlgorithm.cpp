@@ -147,9 +147,9 @@ namespace TEST
             }
         }
 
-        printResult(operations,hits,MethodName);
-
         std::cout<<"\n总用时: "<<t.TimerEnd().count()<<"ms"<<std::endl;
+
+        printResult(operations,hits,MethodName);
     }
 
     void printResult(const int operations,const int hits, const std::string& description)
