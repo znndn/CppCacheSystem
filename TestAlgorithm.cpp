@@ -150,9 +150,14 @@ namespace TEST
 
         std::cout<<"\n总用时: "<<t.TimerEnd().count()<<"ms"<<std::endl;
 
-        if (MethodName=="LFU有衰减算法")
+        
+        if constexpr (requires { Algorithm.GetLfuAgingCount(); })
+        // if constexpr + requires：编译期判断。 检查当前算法类型是否提供 GetLfuAgingCount()。对于 LRU，整个分支在模板实例化时被舍弃。
         {
-            LfuAgingCount=Algorithm.GetLfuAgingCount();
+            if (MethodName == "LFU有衰减算法")
+            {
+                LfuAgingCount = Algorithm.GetLfuAgingCount();
+            }
         }
 
         printResult(operations,hits,MethodName,LfuAgingCount);

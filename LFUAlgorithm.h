@@ -81,7 +81,7 @@ namespace LFU
             node->next=nullptr;
             node->prev.reset();
         }
-        std::shared_ptr<Node<Key,Value>> getCurrFirstNode()
+        std::shared_ptr<Node<Key,Value>> getCurrFirstNode() 
         {
             if (isEmpty()==false)
             {
@@ -179,7 +179,7 @@ namespace LFU
         }
         ~LFUAlgorithm() override = default;
 
-        int GetLfuAgingCount()
+        int GetLfuAgingCount() const
         {
             return LfuAgingCount;
         }
