@@ -9,7 +9,7 @@
 
 namespace TEST
 {
-    void printResult(int operations,int hits, const std::string& description);
+    void printResult(int operations,int hits, const std::string& description,int LfuAgingCount);
     
     template <typename algorithm>
     void AlgorithmTest
@@ -108,6 +108,7 @@ namespace TEST
     {
 
         int hits=0;
+        int LfuAgingCount=0;
 
         // 用同一批热点键为当前缓存预热。
         for (int i=0;i<HOTKEY;i++)
@@ -147,17 +148,26 @@ namespace TEST
             }
         }
 
-        printResult(operations,hits,MethodName);
-
         std::cout<<"\n总用时: "<<t.TimerEnd().count()<<"ms"<<std::endl;
+
+        if (MethodName=="LFU有衰减算法")
+        {
+            LfuAgingCount=Algorithm.GetLfuAgingCount();
+        }
+
+        printResult(operations,hits,MethodName,LfuAgingCount);
     }
 
-    void printResult(const int operations,const int hits, const std::string& description)
+    void printResult(const int operations,const int hits, const std::string& description,int LfuAgingCount)
     {
         const double hitRate = static_cast<double>(hits) / static_cast<double>(operations);
         std::cout<<description+" 热点数据访问测试结果:"<<std::endl;
-        std::cout<<"每种算法总操作次数: "<<OPERATIONS<<std::endl;
-        std::cout<<"每种算法总读取次数: "<<operations<<std::endl;
+        std::cout<<"总操作次数: "<<OPERATIONS<<std::endl;
+        std::cout<<"总读取次数: "<<operations<<std::endl;
+        if (description=="LFU有衰减算法")
+        {
+            std::cout<<"衰减触发次数: "<<LfuAgingCount<<std::endl;
+        }
         std::cout<<"命中数: "<<hits<<std::endl;
         std::cout<<"命中率: "<<std::fixed<<std::setprecision(4)<<hitRate<<std::endl;
     }

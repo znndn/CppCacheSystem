@@ -107,6 +107,8 @@ namespace LFU
 
         private:
 
+        int LfuAgingCount=0;
+
         void AddNodeToNewFrequencyList(std::shared_ptr<Node<Key,Value>> node)
         {
             int freq = node->NodeFrequency;
@@ -176,6 +178,11 @@ namespace LFU
         {
         }
         ~LFUAlgorithm() override = default;
+
+        int GetLfuAgingCount()
+        {
+            return LfuAgingCount;
+        }
 
         bool get(const Key& key, Value& value) override
         {
@@ -261,6 +268,7 @@ namespace LFU
         {
             int ValueToReduce = currentAverageNumber / 2;
             int ReducedFrequency = 0;
+            LfuAgingCount++;
 
             if (ValueToReduce == 0 && currentAverageNumber > 0)
             {
